@@ -1,10 +1,6 @@
 const axios = require('axios');
-const ytdl = require('ytdl-core');
 const fs = require('fs');
 const path = require('path');
-const simpleYT = require('simple-youtube-api');
-const { google } = require('googleapis');
-const mime = require('mime-types');
 const getFBInfo = require("@xaviabot/fb-downloader");
 
 module.exports.config = {
@@ -55,94 +51,6 @@ module.exports.handleEvent = async function ({ api, event }) {
             }
           }
         }
-
-  if (event.body !== null) {
-    (async () => {
-      const apiKey = 'AIzaSyCYUPzrExoT9f9TsNj7Jqks1ZDJqqthuiI';
-      if (!apiKey) {
-        console.error('No Google Drive API key provided.');
-        return;
-      }
-
-      const drive = google.drive({ version: 'v3', auth: apiKey });
-      const gdriveLinkPattern = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:folderview\?id=|file\/d\/|open\?id=))([\w-]{33}|\w{19})(&usp=sharing)?/gi;
-      let match;
-
-      while ((match = gdriveLinkPattern.exec(event.body)) !== null) {
-        const fileId = match[1];
-
-        try {
-          const res = await drive.files.get({ fileId: fileId, fields: 'name, mimeType' });
-          const fileName = res.data.name;
-          const mimeType = res.data.mimeType;
-          const extension = mime.extension(mimeType);
-          const destFilename = `${fileName}${extension ? '.' + extension : ''}`;
-          const destPath = path.join(downloadDirectory, destFilename);
-
-          console.log(`Downloading file "${fileName}"...`);
-          const dest = fs.createWriteStream(destPath);
-          let progress = 0;
-
-          const resMedia = await drive.files.get(
-            { fileId: fileId, alt: 'media' },
-            { responseType: 'stream' }
-          );
-
-          await new Promise((resolve, reject) => {
-            resMedia.data
-              .on('end', () => {
-                console.log(`Downloaded file "${fileName}"`);
-                resolve();
-              })
-              .on('error', (err) => {
-                console.error('Error downloading file:', err);
-                reject(err);
-              })
-              .on('data', (d) => {
-                progress += d.length;
-                process.stdout.write(`Downloaded ${progress} bytes\r`);
-              })
-              .pipe(dest);
-          });
-
-          console.log(`Sending message with file "${fileName}"...`);
-          await api.sendMessage({ body: `𝖦𝗈𝗈𝗀𝗅𝖾 𝖣𝗋𝗂𝗏𝖾 𝖫𝗂𝗇𝗄 \n\n𝙵𝙸𝙻𝙴𝙽𝙰𝙼𝙴: ${fileName}\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`, attachment: fs.createReadStream(destPath) }, event.threadID, () => fs.unlinkSync(destPath),
-        event.messageID);
-
-          console.log(`Deleting file "${fileName}"...`);
-          await fs.promises.unlink(destPath);
-          console.log(`Deleted file "${fileName}"`);
-        } catch (err) {
-          console.error('Error processing file:', err);
-        }
-      }
-    })();
-  }
-
-  if (event.body !== null) {
-    const youtube = new simpleYT('AIzaSyCMWAbuVEw0H26r94BhyFU4mTaP5oUGWRw');
-    const youtubeLinkPattern = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
-    const videoUrl = event.body;
-
-    if (youtubeLinkPattern.test(videoUrl)) {
-      try {
-        const video = await youtube.getVideo(videoUrl);
-        const stream = ytdl(videoUrl, { quality: 'highest' });
-        const filePath = path.join(downloadDirectory, `${video.title}.mp4`);
-        const file = fs.createWriteStream(filePath);
-
-        stream.pipe(file);
-
-        file.on('finish', () => {
-          file.close(() => {
-            api.sendMessage({body: "𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 𝖥𝖺𝖼𝖾𝖻𝗈𝗈𝗄 Youtube\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃", attachment: fs.createReadStream(filePath) }, event.threadID, () => fs.unlinkSync(filePath));
-          });
-        });
-      } catch (error) {
-        console.error('Error downloading video:', error);
-              }
-          }
-      }
 
      if (event.body !== null) {
     const fbvid = path.join(downloadDirectory, 'video.mp4');
