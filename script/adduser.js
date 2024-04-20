@@ -24,14 +24,14 @@ module.exports.run = async function ({ api, event, args }) {
   var { participantIDs, approvalMode, adminIDs } = await api.getThreadInfo(threadID);
   var participantIDs = participantIDs.map(e => parseInt(e));
   if (!args[0]) return out("Please enter a UID/link profile user to add.");
-  if (!isNaN(args[0])) return adduser(args[0], args[1]); // Pass the link argument to adduser
+  if (!isNaN(args[0])) return adduser(args[0], args[1]);
   else {
     try {
-      var [id, name, fail] = await getUID(args[0], api, args[1]); // Pass the link argument to getUID
+      var [id, name, fail] = await getUID(args[0], api, args[1]); 
       if (fail == true && id != null) return out(id);
       else if (fail == true && id == null) return out("User ID not found.")
       else {
-        await adduser(id, name || "Facebook users", args[1]); // Pass the link argument to adduser
+        await adduser(id, name || "Facebook users", args[1]);
       }
     } catch (e) {
       return out(`${e.name}: ${e.message}.`);
@@ -55,9 +55,9 @@ module.exports.run = async function ({ api, event, args }) {
   }
 }
 
-async function getUID(input, api, link) { // Pass the link argument to getUID
+async function getUID(input, api, link) { 
   try {
-    const id = await findUid(input, link); // Pass the link argument to findUid
+    const id = await findUid(input, link);
     const name = await getUserNames(api, id);
     return [id, name];
   } catch (error) {

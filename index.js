@@ -826,7 +826,7 @@ function createConfig() {
       adminName: [],
       devMode: false,
       database: false,
-      restartTime: 120
+      restartTime: 1440
     },
     fcaOption: {
       forceLogin: true,
@@ -836,8 +836,8 @@ function createConfig() {
       selfListen: false,
       userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64",
       online: true,
-      autoMarkDelivery: true,
-      autoMarkRead: true
+      autoMarkDelivery: false,
+      autoMarkRead: false
     }
   }];
   const dataFolder = './data';
