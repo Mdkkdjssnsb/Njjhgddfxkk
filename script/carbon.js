@@ -51,7 +51,7 @@ module.exports.config = {
     usage: "{pn} <text> ",
     usages: "{pn} <text> ",
     credits: 'cliff',//owner api samir
-    cooldown: 5,
+    cooldown: 0,
     hasPrefix: false,
     aliases: ["carbon", "snipe"],
     cooldowns: 5,
