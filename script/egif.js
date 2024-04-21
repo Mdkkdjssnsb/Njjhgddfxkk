@@ -12,9 +12,9 @@ module.exports.config = {
 commandCategory: "gif",
   hasPrefix: false,
   usage: '{pn} [emoji]',
-  cooldowns: 5,
+  cooldowns: 0,
   usages: '{pn} [emoji]',
-  cooldown: 5,
+  cooldown: 0,
 };
 
 module.exports.run = async function ({ api, args, event }) {
