@@ -586,7 +586,7 @@ const textToAutofont = (text, font) => {
                                 const link = ["https://i.imgur.com/dVw3IRx.gif"];
                                 const gifPath = __dirname + "/cache/leave.gif";
                            api.sendMessage({ body: `${name} ${type}, There are now ${participantIDs.length} members in the group, please enjoy!`, attachment: fs.createReadStream(gifPath) }, event.threadID);
-                            });
+                          });
                         });
                     }
                 }
@@ -616,7 +616,7 @@ const textToAutofont = (text, font) => {
                                return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
                            }
 
-                           const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 Instagram\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
+                           const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 Instagram\n\n${modifiedBotName} 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
                            api.sendMessage({
                                body: messageBody,
                                attachment: fs.createReadStream(path)

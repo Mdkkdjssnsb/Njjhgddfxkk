@@ -5,7 +5,7 @@ module.exports.config = {
  credits: "cliff",
  description: "Play a song",
  aliases: ["sing","music","song"],
-cooldowns: 10,
+cooldowns: 0,
 hasPrefix: false,
 usage: "{pn} search music",
 };
