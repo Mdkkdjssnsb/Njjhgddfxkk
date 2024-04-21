@@ -1,59 +1,62 @@
-'use strict'
+const axios = require('axios');
+const fs = require('fs-extra');
 
 module.exports.config = {
-  name: "faceswap",
-  hasPrefix: false,
+  name: "swap",
+  version: "7.2",
+  hasPermssion: 0,
   role: 0,
-  hasPermission: false,
+  hasPrefix: false,
+  credits: "Hazeyy",
+  description: "(Face Swap)",
   commandCategory: "no prefix",
-  usePrefix: false,
-  cooldown: 0,
-  cooldowns: 0,
-  aliases: [],
-  description: "Generate image",
-  usages: "{pn} reply to image",
-  usage: "{pn} reply to image",
-  credits: "Deku"
-}
+  usages: "[Reply to 2 images to swap]",
+  cooldowns: 2,
+};
 
-module.exports.run = async function({ api, event, args }) {
-  try {
-    const { Prodia } = require("prodia.js");
-    const prodia = new Prodia("7e33be3f-5af6-42b2-854b-6439b3732050");
-    const axios = require("axios"), fs = require('fs');
-    let url, url1;
+module.exports.run = async function ({ api, event }) {
+  const reply = (message) => api.sendMessage(message, event.threadID, event.messageID);
 
-    if (event.type == "message_reply") {
-      if (event.messageReply.attachments.length < 0) return api.sendMessage("No image found.", event.threadID);
-      if (event.messageReply.attachments[0].type !== "photo") return api.sendMessage("Only image can be converted.", event.threadID);
-      url = event.messageReply.attachments[0].url;
+  if (event.type === "message_reply") {
+    const attachments = event.messageReply.attachments.filter(attachment => attachment.type === "photo");
 
-      if (event.messageReply.attachments.lengt > 2) return api.sendMessage("Only 2 images can be converted.", event.threadID);
+    if (attachments.length >= 2) {
+      const [url1, url2] = attachments.map(attachment => attachment.url);
+      const path = __dirname + `/cache/swapped_image.jpg`;
 
-      url = event.messageReply.attachments[0].url;
-      url1 = event.messageReply.attachments[1].url;
+      api.sendMessage("🔮 | Please wait while we swap your images...", event.threadID, event.messageID);
 
-      api.sendTypingIndicator(event.threadID);
-      const generate = await prodia.faceSwap({
-        sourceUrl: encodeURI(url),
-        targetUrl: encodeURI(url1),
-      });
+      try {
+        const response = await axios.get('https://haze-faceswap.replit.app/swap', {
+          params: {
+            swap_image: url1,
+            target_image: url2
+          }
+        });
 
-      while (generate.status !== "succeeded" && generate.status !== "failed") {
-        await new Promise((resolve) => setTimeout(resolve, 250));
-        const job = await prodia.getJob(generate.job);
+        const processedImageURL = response.data.hazeswap;
+        const { data } = await axios.get(processedImageURL, { responseType: "stream" });
 
-        if (job.status === "succeeded") {
-          let img = (await axios.get(job.imageUrl, { responseType: "arraybuffer" })).data;
-          let path = __dirname + '/../cache/gen.png';
-          fs.writeFileSync(path, Buffer.from(img, "utf-8"))
-          return api.sendMessage({ attachment: fs.createReadStream(path) }, event.threadID);
-        }
+        const writer = fs.createWriteStream(path);
+        data.pipe(writer);
+
+        writer.on('finish', () => {
+          api.sendMessage({
+            body: "🔮 Image Swap Successful",
+            attachment: fs.createReadStream(path)
+          }, event.threadID, (err, messageInfo) => {
+            if (err) {
+              reply("🤖 Error sending message: " + err);
+            } else {
+              fs.unlinkSync(path);
+            }
+          });
+        });
+      } catch (error) {
+        reply(`🤖 Processing images failed: ${error}`);
       }
     } else {
-      return api.sendMessage("Please reply to an image.", event.threadID);
+      reply("🔮 Face Swap\n\nUsage: swap [reply 1 and 2 image]");
     }
-  } catch (e) {
-    return api.sendMessage(e.message, event.threadID);
   }
-}
+};
