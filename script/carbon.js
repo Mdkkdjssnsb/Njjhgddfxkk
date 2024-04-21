@@ -73,7 +73,7 @@ module.exports.run = async function ({ api, event, args }) {
         const messageId = messageInfo.messageID;
         api.unsendMessage(messageId);
         await api.sendMessage({
-            body: `Carbon Generated Successfully\n\nVisit this site to see more available Themes: https://carbon.now.sh/`,
+            body: `Generated carbon Successfull\n\nVisit this site to see more available Themes: https://carbon.now.sh/`,
             attachment: imageStream
         }, event.threadID);
     } catch (error) {

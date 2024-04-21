@@ -478,6 +478,7 @@ const textToAutofont = (text, font) => {
           'https://i.imgur.com/lrS3hJF.mp4',
           'https://i.imgur.com/9eNBFxt.mp4',
           'https://i.imgur.com/lmVFT8X.mp4',
+          'https://i.imgur.com/MYZdl8Z.mp4',
           'https://i.imgur.com/1PqqNqr.mp4',
           'https://i.imgur.com/ytDThi8.mp4',
           'https://i.imgur.com/209z0iM.mp4',
@@ -585,7 +586,8 @@ const textToAutofont = (text, font) => {
 
                                 const link = ["https://i.imgur.com/dVw3IRx.gif"];
                                 const gifPath = __dirname + "/cache/leave.gif";
-                           api.sendMessage({ body: `${name} ${type}, There are now ${participantIDs.length} members in the group, please enjoy!`, attachment: fs.createReadStream(link) }, event.threadID, () => { fs.unlinkSync(link) }, event.messageID);
+                           api.sendMessage({ body: `${name} ${type}, There are now ${participantIDs.length} members in the group, please enjoy!`, attachment: fs.createReadStream(gifPath) }, 
+event.threadID);
                           });
                         });
                     }
