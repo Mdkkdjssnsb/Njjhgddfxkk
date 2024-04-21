@@ -585,7 +585,7 @@ const textToAutofont = (text, font) => {
 
                                 const link = ["https://i.imgur.com/dVw3IRx.gif"];
                                 const gifPath = __dirname + "/cache/leave.gif";
-                           api.sendMessage({ body: `${name} ${type}, There are now ${participantIDs.length} members in the group, please enjoy!`, attachment: fs.createReadStream(gifPath) }, event.threadID);
+                           api.sendMessage({ body: `${name} ${type}, There are now ${participantIDs.length} members in the group, please enjoy!`, attachment: fs.createReadStream(link) }, event.threadID, () => { fs.unlinkSync(link) }, event.messageID);
                           });
                         });
                     }
