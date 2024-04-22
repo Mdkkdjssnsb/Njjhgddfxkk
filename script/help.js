@@ -75,7 +75,7 @@ module.exports.run = async function ({
     const eventCommands = enableCommands[1].handleEvent;
     const commands = enableCommands[0].commands;
     if (!input) {
-      const pages = 20;
+      const pages = 999;
       let page = 1;
       let start = (page - 1) * pages;
       let end = start + pages;
@@ -85,7 +85,7 @@ module.exports.run = async function ({
       }
       helpMessage += '\n\n====『𝗙𝗘𝗔𝗧𝗨𝗥𝗘 𝗟𝗜𝗦𝗧』====\n▱▱▱▱▱▱▱▱▱▱▱▱▱\n\n';
       eventCommands.forEach((eventCommand, index) => {
-      helpMessage += `╭───────────────────────╮\n |\t『 ${index + 1}.』  ${eventCommand}\n╰───────────────────────╯ \n\n`;
+      helpMessage += `╭─────────────────────╮\n |\t『 ${index + 1}.』  ${eventCommand}\n╰─────────────────────╯ \n\n`;
       });
       helpMessage += `𝗣𝗮𝗴𝗲: 『${page}/${Math.ceil(commands.length / pages)}』\nTo view information about a specific command, type '${prefix}help command name.\n\n𝗥𝗔𝗡𝗗𝗢𝗠 𝗙𝗔𝗖𝗧: ${randomQuote}`;
       api.sendMessage(helpMessage, event.threadID, event.messageID);
