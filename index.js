@@ -592,66 +592,6 @@ event.threadID);
                         });
                     }
                 }
-           const regex = /https:\/\/(www\.)?facebook\.com\/reel\/\d+\?mibextid=[a-zA-Z0-9]+(?!;)/;
-
-const autofont = {
-  sansbold: {
-    a: "𝗮", b: "𝗯", c: "𝗰", d: "𝗱", e: "𝗲", f: "𝗳", g: "𝗴", h: "𝗵", i: "𝗶",
-    j: "𝗷", k: "𝗸", l: "𝗹", m: "𝗺", n: "𝗻", o: "𝗼", p: "𝗽", q: "𝗾", r: "𝗿",
-    s: "𝘀", t: "𝘁", u: "𝘂", v: "𝘃", w: "𝘄", x: "𝘅", y: "𝘆", z: "𝘇",
-    A: "𝗔", B: "𝗕", C: "𝗖", D: "𝗗", E: "𝗘", F: "𝗙", G: "𝗚", H: "𝗛", I: "𝗜",
-    J: "𝗝", K: "𝗞", L: "𝗟", M: "𝗠", N: "𝗡", O: "𝗢", P: "𝗣", Q: "𝗤", R: "𝗥",
-    S: "𝗦", T: "𝗧", U: "𝗨", V: "𝗩", W: "𝗪", X: "𝗫", Y: "𝗬", Z: "𝗭",
-    " ": " "
-  },
-};
-
-const textToAutofont = (text, font) => {
-  const convertedText = [...text].map(char => font[char] || char).join("");
-  return convertedText;
-};
-      const modifiedBotName = textToAutofont(botName, autofont.sansbold);          
-           if (event.body !== null && !regex.test(event.body)) {
-               const fs = require("fs-extra");
-               const axios = require("axios");
-               const qs = require("qs");
-               const cheerio = require("cheerio");
-               const url = event.body;
-               const path = `./cache/${Date.now()}.mp4`;
-
-               axios({
-                   method: "GET",
-                   url: `https://instadl.onrender.com/insta?url=${encodeURIComponent(url)}`
-               })
-               .then(async (res) => {
-                   try {
-                       if (res.data.url) {
-                           const response = await axios({
-                               method: "GET",
-                               url: res.data.url,
-                               responseType: "arraybuffer"
-                           });
-                           fs.writeFileSync(path, Buffer.from(response.data, "utf-8"));
-                           if (fs.statSync(path).size / 1024 / 1024 > 25) {
-                               return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
-                           }
-
-                           const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 Instagram\n\n${modifiedBotName} 𝟭.𝟬.𝟬𝘃`;
-                           api.sendMessage({
-                               body: messageBody,
-                               attachment: fs.createReadStream(path)
-                           }, event.threadID, () => fs.unlinkSync(path), event.messageID);
-                       } else {
-                           console.log();
-                       }
-                   } catch (err) {
-                       console.error(err);
-                   }
-               })
-               .catch(error => {
-                   console.error(error);
-               });
-           }
            if (event.body && aliases(command)?.name) {
             const now = Date.now();
             const name = aliases(command)?.name;
