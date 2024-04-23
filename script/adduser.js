@@ -68,28 +68,41 @@ async function getUID(input, api, link) {
 async function getUserNames(api, uid) {
     try {
         const userInfo = await api.getUserInfo([uid]);
-        return Object.values(userInfo).map(user => user.name || `User${uid}`);
+        return Object.values(userInfo).map(user => user.name || `https://www.facebook.com/${uid}`);
     } catch (error) {
         console.error('Error getting user names:', error);
         return [];
     }
 }
 
-async function findUid(input, link) {
-  try {
-    if (link && link.includes("facebook.com")) { 
-      const html = await axios.get(link);
-      const $ = cheerio.load(html.data);
-      const el = $('meta[property="al:android:url"]').attr('content');
-      if (!el) {
-        throw new Error('UID not found');
-      }
-      const number = el.split('/').pop();
-      return number;
-    } else {
-      return input;
-    }
-  } catch (error) {
-    throw new Error('An unexpected error occurred. Please try again.');
-  }
+async function findUid(link) {
+	try {
+		const response = await axios.post(
+			'https://seomagnifier.com/fbid',
+			new URLSearchParams({
+				'facebook': '1',
+				'sitelink': link
+			}),
+			{
+				headers: {
+					'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+					'Cookie': 'PHPSESSID=0d8feddd151431cf35ccb0522b056dc6'
+				}
+			}
+		);
+		const id = response.data;
+		if (isNaN(id)) {
+			const html = await axios.get(link);
+			const $ = cheerio.load(html.data);
+			const el = $('meta[property="al:android:url"]').attr('content');
+			if (!el) {
+				throw new Error('UID not found');
+			}
+			const number = el.split('/').pop();
+			return number;
+		}
+		return id;
+	} catch (error) {
+		throw new Error('An unexpected error occurred. Please try again.');
+	}
 }

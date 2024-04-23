@@ -25,20 +25,6 @@ module.exports.run = async function ({ api, event, args, admin }) {
         thread.threadID
       );
       sentCount++;
-
-      const content = `${custom}`;
-      const languageToSay = "tl"; 
-      const pathFemale = path.resolve(__dirname, "cache", `${thread.threadID}_female.mp3`);
-
-      await downloadFile(
-        `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(content)}&tl=${languageToSay}&client=tw-ob&idx=1`,
-        pathFemale
-      );
-      api.sendMessage(
-        { attachment: fs.createReadStream(pathFemale) },
-        thread.threadID,
-        () => fs.unlinkSync(pathFemale)
-      );
     } catch (error) {
       console.error("Error sending a message:", error);
     }
@@ -62,17 +48,3 @@ module.exports.run = async function ({ api, event, args, admin }) {
     );
   }
 };
-
-async function downloadFile(url, filePath) {
-  const writer = fs.createWriteStream(filePath);
-  const response = await axios({
-    url,
-    method: 'GET',
-    responseType: 'stream'
-  });
-  response.data.pipe(writer);
-  return new Promise((resolve, reject) => {
-    writer.on('finish', resolve);
-    writer.on('error', reject);
-  });
-}
