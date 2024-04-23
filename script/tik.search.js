@@ -2,8 +2,8 @@ module.exports.config = {
   name: "tiktok",
   version: "1.0.0",
   role: 0,
-  credits: "Jonell Magallanes", //original code Kim Joseph DG Bien
-  description: "tiktok search",
+  credits: "cliff",
+  description: "tiktok search videos",
   hasPrefix: false,
   aliases: ["tik"],
   usage: "[Tiktok <search>]",
