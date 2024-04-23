@@ -4,7 +4,7 @@ module.exports.config = {
  name: "popcat",
  version: "5.050",
  role: 0,
- aliases: ["pop","bot","cat"],
+ aliases: ["pop","cat"],
  credits: "cliff",
  description: ".",
  usages: ".",
