@@ -28,7 +28,7 @@ module.exports.config = {
   description: 'kick the spammers',
   usePrefix: false,
   hasPrefix: false,
-  commandCategory: 'Threaf',
+  commandCategory: 'Thread',
   usages: '[pn]',
   usage: '{pn}',
   cooldowns: 0,

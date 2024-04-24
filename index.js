@@ -192,9 +192,6 @@ const routes = [{
 },{
   path: '/xnxx',
   file: 'xnxx.html'
-},{
-  path: '/Community',
-  file: 'community.ltd.html'
 }, ];
 routes.forEach(route => {
   app.get(route.path, (req, res) => {
