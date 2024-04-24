@@ -3,7 +3,7 @@ module.exports.config = {
     version: "1.0.0",
     role: 0,
     aliases: ["Sim"],
-    credits: "cliff",//api by mark
+    credits: "cliff", //api by mark
     description: "Talk to sim",
     cooldown: 0,
     hasPrefix: false
@@ -11,26 +11,18 @@ module.exports.config = {
 
 module.exports.run = async function({ api, event, args }) {
     const axios = require("axios");
-    let { messageID, threadID, senderID, body } = event;
+    let { threadID, messageID, senderID } = event;
     let tid = threadID,
         mid = messageID;
-    const content = encodeURIComponent(args.join(""));
-    if (!args[0]) return api.sendMessage("Please type a message...", tid, mid);
+    const content = encodeURIComponent(args.join(" "));
+    if (!args[0]) return api.sendMessage("Please type a message to talk simsimi...", tid, mid);
     try {
         const res = await axios.get(`https://69070.replit.app/sim?ask=${content}&lang=en`);
-        const respond = res.data.response;
+        const respond = res.data.respond;
         if (res.data.error) {
-            api.sendMessage(`Error: ${res.data.error}`, tid, (error, info) => {
-                if (error) {
-                    console.error(error);
-                }
-            }, mid);
+            api.sendMessage(`Error: ${res.data.error}`, tid, mid);
         } else {
-            api.sendMessage(respond, tid, (error, info) => {
-                if (error) {
-                    console.error(error);
-                }
-            }, mid);
+            api.sendMessage(respond, tid, mid);
         }
     } catch (error) {
         console.error(error);
