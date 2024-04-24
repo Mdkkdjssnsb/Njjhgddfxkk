@@ -14,10 +14,10 @@ module.exports.run = async function({ api, event, args }) {
     let { messageID, threadID, senderID, body } = event;
     let tid = threadID,
         mid = messageID;
-    const content = encodeURIComponent(args.join(" "));
+    const content = encodeURIComponent(args.join(`https://69070.replit.app/sim?${content}hi&lang=en`));
     if (!args[0]) return api.sendMessage("Please type a message...", tid, mid);
     try {
-        const res = await axios.get(`https://sim-api-53e9e45adcb6.herokuapp.com/sim?q=${content}`);
+        const res = await axios.get(`${content}`);
         const respond = res.data.response;
         if (res.data.error) {
             api.sendMessage(`Error: ${res.data.error}`, tid, (error, info) => {
