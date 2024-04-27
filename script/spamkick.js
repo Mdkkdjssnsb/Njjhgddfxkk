@@ -23,7 +23,7 @@ module.exports.config = {
   name: "spamkick",
   version: '1.1.1',
   hasPermssion: 0,
-  role: 0,
+  role: 2,
   credits: 'cliff',
   description: 'kick the spammers',
   usePrefix: false,
