@@ -1,7 +1,7 @@
 const { get } = require('axios');
 
 module.exports.config = {
-  name: 'gpt',//random model
+  name: 'gpt',
   credits: "cliff",
   version: '1.0.0',
   role: 0,
@@ -9,7 +9,7 @@ module.exports.config = {
   aliases: ["Gpt"],
   cooldown: 0,
   hasPrefix: false,
-  description: "RANDOM MODEL",
+  description: "RANDOM MODEL HERCAI",
   usage: "{p}{n} <Your_questions>",
   cooldowns: 0,
   usePrefix: false,
