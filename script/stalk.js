@@ -34,11 +34,9 @@ module.exports.config = {
   aliases: ["st"]
 };
 
-module.exports.run = async function ({ api, event, args }) {
+module.exports.onStart = async function ({ api, event, args }) {
   let path = __dirname + `/../cache/info.png`;
-  const tokens = [
-"EAAD6V7os0gcBO24ArJjUaBN0ZC3ejzKkM8ZCfIOWtsGZAGdXmVUzmg0ZCrizFi7h6pDUjq3bBQbNJzIagT5UWJyZAvp2Gv3tU0POJ8SNwXFBzeEFNtKAF2I5CGcwkHAYxRZCxh5SGksZCUEqFUZAInSnrXZCzAWWZBsBusZAQwmz2OYZAcYzwLiCtWiBHgI2PTplpJHXCAZDZD",""
-  ];
+  const token = "EAAD6V7os0gcBO24ArJjUaBN0ZC3ejzKkM8ZCfIOWtsGZAGdXmVUzmg0ZCrizFi7h6pDUjq3bBQbNJzIagT5UWJyZAvp2Gv3tU0POJ8SNwXFBzeEFNtKAF2I5CGcwkHAYxRZCxh5SGksZCUEqFUZAInSnrXZCzAWWZBsBusZAQwmz2OYZAcYzwLiCtWiBHgI2PTplpJHXCAZDZD";
 
   let id;
   if (args.join().includes('@')) {
@@ -52,32 +50,31 @@ module.exports.run = async function ({ api, event, args }) {
   }
 
   try {
-    for (const token of tokens) {
-      const resp = await axios.get(`https://graph.facebook.com/${id}?fields=id,is_verified,cover,created_time,work,hometown,username,link,name,locale,location,about,website,birthday,gender,relationship_status,significant_other,quotes,first_name,subscribers.limit(0)&access_token=${token}`, { headers });
+    const resp = await axios.get(`https://graph.facebook.com/${id}?fields=id,is_verified,cover,created_time,work,hometown,username,link,name,locale,location,about,website,birthday,gender,relationship_status,significant_other,quotes,first_name,subscribers.limit(0)&access_token=${token}`, { headers });
 
-      const name = resp.data.name;
-      const link_profile = resp.data.link;
-      const uid = resp.data.id;
-      const first_name = resp.data.first_name;
-      const username = resp.data.username || "No data!";
-      const created_time = convert(resp.data.created_time);
-      const web = resp.data.website || "No data!";
-      const gender = resp.data.gender;
-      const relationship_status = resp.data.relationship_status || "No data!";
-      const love = resp.data.significant_other || "No data!";
-      const bday = resp.data.birthday || "No data!";
-      const follower = resp.data.subscribers.summary.total_count || "No data!";
-      const is_verified = resp.data.is_verified;
-      const quotes = resp.data.quotes || "No data!";
-      const about = resp.data.about || "No data!";
-      const locale = resp.data.locale || "No data!";
-      const hometown = !!resp.data.hometown ? resp.data.hometown.name : "No Hometown";
-      const cover = resp.data.cover || "No Cover photo";
-      const avatar = `https://graph.facebook.com/${id}/picture?width=1500&height=1500&access_token=334508862583630|xv4JTG8zRJux3jib68AtSA5irbU`;
+    const name = resp.data.name;
+    const link_profile = resp.data.link;
+    const uid = resp.data.id;
+    const first_name = resp.data.first_name;
+    const username = resp.data.username || "No data!";
+    const created_time = convert(resp.data.created_time);
+    const web = resp.data.website || "No data!";
+    const gender = resp.data.gender;
+    const relationship_status = resp.data.relationship_status || "No data!";
+    const love = resp.data.significant_other || "No data!";
+    const bday = resp.data.birthday || "No data!";
+    const follower = resp.data.subscribers.summary.total_count || "No data!";
+    const is_verified = resp.data.is_verified;
+    const quotes = resp.data.quotes || "No data!";
+    const about = resp.data.about || "No data!";
+    const locale = resp.data.locale || "No data!";
+    const hometown = !!resp.data.hometown ? resp.data.hometown.name : "No Hometown";
+    const cover = resp.data.cover || "No Cover photo";
+    const avatar = `https://graph.facebook.com/${id}/picture?width=1500&height=1500&access_token=1174099472704185|0722a7d5b5a4ac06b11450f7114eb2e9`;
 
-      const cb = function () {
-        api.sendMessage({
-          body: `•——𝗜𝗡𝗙𝗢𝗥𝗠𝗔𝗧𝗜𝗢𝗡——•
+    const cb = function () {
+      api.sendMessage({
+        body: `•——𝗜𝗡𝗙𝗢𝗥𝗠𝗔𝗧𝗜𝗢𝗡——•
 Name: ${name}
 First name: ${first_name}
 Creation Date: ${created_time}
@@ -90,14 +87,10 @@ Verified: ${is_verified}
 Hometown: ${hometown}
 Locale: ${locale}
 •——𝗘𝗡𝗗——•`,
-          attachment: fs.createReadStream(path)
-        }, event.threadID, () => fs.unlinkSync(path), event.messageID);
-      };
-      request(encodeURI(avatar)).pipe(fs.createWriteStream(path)).on("close", cb);
-      if (name) {
-        break;
-      }
-    }
+        attachment: fs.createReadStream(path)
+      }, event.threadID, () => fs.unlinkSync(path), event.messageID);
+    };
+    request(encodeURI(avatar)).pipe(fs.createWriteStream(path)).on("close", cb);
   } catch (err) {
     api.sendMessage(`Error: ${err.message}`, event.threadID, event.messageID);
   }

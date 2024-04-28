@@ -6,7 +6,7 @@ async function uploadImgbb(file /* stream or image url */) {
     let type = "file";
     try {
         if (!file)
-            throw new Error('The first argument (file) must be a stream or a image url');
+            throw new Error('The first argument (file) must be a stream or an image URL');
         const regCheckURL = /^((http|https):\/\/)/;
         if (regCheckURL.test(file) == true)
             type = "url";
@@ -76,7 +76,7 @@ module.exports.run = async function ({ api, event, args }) {
                 const imgPath = path.join(__dirname, 'cache', `${i + 1}.jpg`);
                 await fs.promises.writeFile(imgPath, imgResponse.data);
                 imgData.push(fs.createReadStream(imgPath));
-fs.unlinkSync(imgPath);
+                fs.unlinkSync(imgPath);
             }
 
             await api.sendMessage({
@@ -106,7 +106,8 @@ fs.unlinkSync(imgPath);
                 const imgResponse = await axios.get(data[i], { responseType: 'arraybuffer' });
                 const imgPath = path.join(__dirname, 'cache', `${i + 1}.jpg`);
                 await fs.promises.writeFile(imgPath, imgResponse.data);
-                imgData.push(fs.createReadStream(imgPath));fs.unlinkSync(imgPath);
+                imgData.push(fs.createReadStream(imgPath));
+                fs.unlinkSync(imgPath);
             }
 
             await api.sendMessage({
