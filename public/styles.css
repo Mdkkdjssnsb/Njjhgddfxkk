@@ -17,9 +17,20 @@ html[data-theme="light"] {
   --col-icon-codeforces:rgb(19, 145, 184);
   --col-icon-leetcode:rgb(255, 181, 62);
   --shadow-col: rgba(0, 0, 0, 0.3);
-
 }
 
+title {
+  --start-color: #FF4D4D;
+  --end-color: #F9CB28;
+  --start-color-2: #7928CA;
+  --end-color-2: #FF0080;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(-45deg, #007CF0, #00DFD8, var(--start-color-2), var(--end-color-2), var(--start-color), var(--end-color));
+  animation: gradient 5s ease-in-out infinite;
+  background-size: 400% 400%;
+}
+  
 html[data-theme="dark"] {
   --col-icon:white;
   --col-bd-radius:black;
@@ -103,7 +114,7 @@ body{
 body {
     margin: auto;
     padding: 20px;
-    font-family: -apple-system, 'Poppins', BlinkMacSystemFont, sans-serif;
+    font-family: 'Monument';
     overflow: auto;
     background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
     animation: gradient 15s ease infinite;
@@ -121,6 +132,10 @@ body {
   background-color: #151515;  
   border-radius: 10px;
   box-shadow: 0px 0px 10px 1px #000000ee;
+}
+
+.h {
+  color: #151515;
 }
 
 #navbarDropdown {
@@ -342,17 +357,15 @@ div {
   }
 
 a {
-  animation: rainbowText 4s infinite;
-  background-color: linear-gradient(90deg, #FF0000,#EE0000,#DD0000,#CC0000);
-}
-
-@keyframes rainbowText {
-  0% { color: magenta; }
-  20% { color: orange; }
-  40% { color: black; }
-  60% { color: green; }
-  80% { color: blue; }
-  100% { color: purple; }
+   --start-color: #FF4D4D;
+  --end-color: #F9CB28;
+  --start-color-2: #7928CA;
+  --end-color-2: #FF0080;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(-45deg, #007CF0, #00DFD8, var(--start-color-2), var(--end-color-2), var(--start-color), var(--end-color));
+  animation: gradient 5s ease-in-out infinite;
+  background-size: 400% 400%;
 }
 
 .cont {

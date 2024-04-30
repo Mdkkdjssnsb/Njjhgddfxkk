@@ -4,7 +4,7 @@ const request = require('request');
 
 module.exports.config = {
     name: "shoticron",
-    credits: "cliff", //created by marjhun in mirai converted by cliff to goat
+    credits: "cliff", 
     version: "2.0.0",
     cooldown: 0,
     role: 2,
