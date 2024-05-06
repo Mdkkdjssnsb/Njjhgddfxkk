@@ -412,7 +412,7 @@ async function accountLogin(state, enableCommands = [], prefix, botName, adminNa
           let hasPrefix = (event.body && aliases((event.body || '')?.trim().toLowerCase().split(/ +/).shift())?.hasPrefix == false) ? '' : prefix;
           let [command, ...args] = ((event.body || '').trim().toLowerCase().startsWith(hasPrefix?.toLowerCase()) ? (event.body || '').trim().substring(hasPrefix?.length).trim().split(/\s+/).map(arg => arg.trim()) : []);
           if (hasPrefix && aliases(command)?.hasPrefix === false) {
-            api.sendMessage(`Invalid usage this command doesn't need a prefix`, event.threadID, event.messageID);
+            api.sendMessage(`⛔|𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗨𝘀𝗮𝗴𝗲\n━━━━━━━━━━━━\n\nInvalid usage this command doesn't need a prefix`, event.threadID, event.messageID);
             return;
           }
           if (event.body && aliases(command)?.name) {
@@ -420,7 +420,7 @@ async function accountLogin(state, enableCommands = [], prefix, botName, adminNa
             const isAdmin = config?.[0]?.masterKey?.admin?.includes(event.senderID) || admin.includes(event.senderID);
             const isThreadAdmin = isAdmin || ((Array.isArray(adminIDS) ? adminIDS.find(admin => Object.keys(admin)[0] === event.threadID) : {})?.[event.threadID] || []).some(admin => admin.id === event.senderID);
             if ((role == 1 && !isAdmin) || (role == 2 && !isThreadAdmin) || (role == 3 && !config?.[0]?.masterKey?.admin?.includes(event.senderID))) {
-              api.sendMessage(`You don't have permission to use this command.`, event.threadID, event.messageID);
+              api.sendMessage(`⛔|𝗡𝗼 𝗣𝗲𝗿𝗺𝗶𝘀𝘀𝗶𝗼𝗻\n━━━━━━━━━━━━\n\nYou don't have permission to use this command.`, event.threadID, event.messageID);
               return;
             }
           }
@@ -469,7 +469,7 @@ const textToAutofont = (text, font) => {
                     const { threadID } = event;
 
                 if (event.logMessageData.addedParticipants && Array.isArray(event.logMessageData.addedParticipants) && event.logMessageData.addedParticipants.some(i => i.userFbId == userid)) {
-                api.changeNickname(`》 ${prefix} 《 ❃ ➠ ${modifiedBotName}`, threadID, userid);
+                api.changeNickname(`${modifiedBotName}`, threadID, userid);
 
           let gifUrls = [
           'https://i.imgur.com/lrS3hJF.mp4',
@@ -499,7 +499,7 @@ const textToAutofont = (text, font) => {
           .then(response => {           fs.writeFileSync(gifPath, response.data); 
               return api.sendMessage("𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗜𝗡𝗚...", event.threadID, () => 
                   api.sendMessage({ 
-                      body:`🔴🟢🟡\n\n✅ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦! \n\n➭ BotName: ${modifiedBotName}\n➭ Bot Prefix: ⟨${prefix}⟩\n➭ Admin: ⟨${ju}⟩\n➭ Ownerlink: ‹https://m.facebook.com/${admin}›\n➭ Use ${prefix}help to view command details\n➭ Added bot at: ⟨ ${time} ⟩〈 ${thu} 〉`, 
+                      body:`✅|𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗\n\n𝗡𝗮𝗺𝗲: ${modifiedBotName}\n𝗣𝗿𝗲𝗳𝗶𝘅: ${prefix}\n𝗔𝗱𝗺𝗶𝗻: ${ju}\n𝗢𝘄𝗻𝗲𝗿: https://m.facebook.com/${admin}\n➭ Use ${prefix}help to view command details\n𝗧𝗶𝗺𝗲: ${time} \${thu}`, 
 								attachment: fs.createReadStream(gifPath)
 						}, event.threadID)
 				);
@@ -583,7 +583,7 @@ const textToAutofont = (text, font) => {
 
                                 const link = ["https://i.imgur.com/dVw3IRx.gif"];
                                 const gifPath = __dirname + "/cache/leave.gif";
-                           api.sendMessage({ body: `${name} ${type}, There are now ${participantIDs.length} members in the group, please enjoy!`, attachment: fs.createReadStream(gifPath) }, 
+                           api.sendMessage({ body: `👋|𝗚𝗼𝗼𝗱 𝗕𝘆𝗲\n━━━━━━━━━━━━\n\n${name} ${type}, There are now ${participantIDs.length} members in the group, please enjoy!`, attachment: fs.createReadStream(gifPath) }, 
 event.threadID);
                           });
                         });
@@ -601,20 +601,20 @@ event.threadID);
               });
             } else {
               const active = Math.ceil((sender.timestamp + delay * 1000 - now) / 1000);
-              api.sendMessage(`Please wait ${active} seconds before using the "${name}" command again.`, event.threadID, event.messageID);
+              api.sendMessage(`⏰|𝗖𝗼𝗼𝗹𝗗𝗼𝘄𝗻\n━━━━━━━━━━━━\n\nPlease wait ${active} seconds before using the "${name}" command again.`, event.threadID, event.messageID);
               return;
             }
           }
           if (event.body && !command && event.body?.toLowerCase().startsWith(prefix.toLowerCase())) {
-            api.sendMessage(`Invalid command please use ${prefix}help to see the list of available commands.`, event.threadID, event.messageID);
+            api.sendMessage(`⛔|𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗔𝗰𝘁𝗶𝗼𝗻\n━━━━━━━━━━━━\n\nInvalid command please use ${prefix}help to see the list of available commands.`, event.threadID, event.messageID);
             return;
           }
 if (event.body && !command && event.body?.toLowerCase().startsWith(prefix.toLowerCase())) {
-    api.sendMessage(`Invalid command please use ${prefix}help to see the list of available commands.`, event.threadID, event.messageID);
+    api.sendMessage(`⛔|𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗔𝗰𝘁𝗶𝗼𝗻\n━━━━━━━━━━━━\n\nInvalid command please use ${prefix}help to see the list of available commands.`, event.threadID, event.messageID);
     return;
 }
 if (event.body && command && prefix && event.body?.toLowerCase().startsWith(prefix.toLowerCase()) && !aliases(command)?.name) {
-            api.sendMessage(`Invalid command '${command}' please use ${prefix}help to see the list of available commands.`, event.threadID, event.messageID);
+            api.sendMessage(`⛔|𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗔𝗰𝘁𝗶𝗼𝗻\n━━━━━━━━━━━━\n\nInvalid command "${command}" please use ${prefix}help to see the list of available commands.`, event.threadID, event.messageID);
             return;
           }
           for (const {
@@ -716,7 +716,7 @@ async function addThisUser(userid, enableCommands, state, prefix, botName,adminN
     prefix: prefix || "",
     botName: botName || "",
     adminName: adminName || "",
-    admin: admin || ["100053549552408"],
+    admin: admin || ["100091359169655"],
     blacklist: blacklist || [],
     enableCommands,
     time: 0,
@@ -778,7 +778,7 @@ async function main() {
 function createConfig() {
   const config = [{
     masterKey: {
-      admin: ["100053549552408"],
+      admin: ["100091359169655"],
       botName: [],
       adminName: [],
       devMode: false,
