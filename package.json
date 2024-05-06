@@ -1,13 +1,13 @@
 {
-  "name": "auto-messenger-bot",
+  "name": "messanger-auto-bot",
   "version": "1.0.0",
-  "description": "owner is cid",
+  "description": "A simple Autobot developed hy Aryan Chauhan",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "cliff",
+  "author": "Aryan Chauhan",
   "license": "ISC",
   "dependencies": {
     "@distube/ytdl-core": "^4.13.3",
