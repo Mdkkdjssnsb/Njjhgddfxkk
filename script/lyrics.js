@@ -22,7 +22,7 @@ module.exports.run = async function ({ api, event, args }) {
 
         const apiUrl = `https://aryan-apis.onrender.com/api/lyrics?songName=${encodeURIComponent(songName)}&key=loveyou`;
         const response = await axios.get(apiUrl);
-        const { lyrics, title, artist, image } = response.data;
+        const { lyrics, title, artist } = response.data;
 
         if (!lyrics) {
             api.sendMessage(`⛔ 𝗡𝗼 𝗗𝗮𝘁𝗮\n\n➤ Sorry, lyrics not found. Please provide another song name!`, event.threadID);
@@ -30,8 +30,7 @@ module.exports.run = async function ({ api, event, args }) {
         }
 
         let message = `🎶 𝗟𝗬𝗥𝗜𝗖𝗦\n\nℹ️ 𝗧𝗶𝘁𝗹𝗲\n➪ ${title}\n👑 𝗔𝗿𝘁𝗶𝘀𝘁\n➪ ${artist}\n🔎 𝗟𝘆𝗿𝗶𝗰𝘀\n━━━━━━━━━━━━━━━\n${lyrics}`;
-        let attachment = fs.createReadStream(image);
-        api.sendMessage({ body: message, attachment }, event.threadID);
+        api.sendMessage({ body: message }, event.threadID);
     } catch (error) {
         console.error(error);
         api.sendMessage(`⛔ 𝗡𝗼 𝗗𝗮𝘁𝗮\n\n➤ Sorry, lyrics not found. Please provide another song name!`, event.threadID);
