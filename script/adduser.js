@@ -1,108 +1,47 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-
 module.exports.config = {
-  name: "adduser",
-  version: "1.0.1",
-  role: 0,
-  hasPermission: 0,
-  credits: "cliff",
-  description: "Add user to group by id",
-  hasPrefix: false,
-  commandCategory: "group",
-  usages: "adduser [id] [link]",
-  usage: "[args]",
-  aliases: ["add","Add"],
-  cooldowns: 5,
-  cooldown: 5
+	name: "adduser",
+	version: "1.0.1",
+	role: 0,
+	aliases: ["add"],
+	credits: "Yan Maglinte",
+	description: "Add user to group by user uid or FB link.",
+	cooldown: 0,
 };
 
 module.exports.run = async function ({ api, event, args }) {
-  const { threadID, messageID } = event;
-  const botID = api.getCurrentUserID();
-  const out = msg => api.sendMessage(msg, threadID, messageID);
-  var { participantIDs, approvalMode, adminIDs } = await api.getThreadInfo(threadID);
-  var participantIDs = participantIDs.map(e => parseInt(e));
-  if (!args[0]) return out("Please enter a UID");
-  if (!isNaN(args[0])) return adduser(args[0], args[1]);
-  else {
-    try {
-      var [id, name, fail] = await getUID(args[0], api, args[1]); 
-      if (fail == true && id != null) return out(id);
-      else if (fail == true && id == null) return out("User ID not found.")
-      else {
-        await adduser(id, name || "Facebook users", args[1]);
-      }
-    } catch (e) {
-      return out(`${e.name}: ${e.message}.`);
-    }
-  }
+	const { threadID, messageID } = event;
+	const botID = api.getCurrentUserID();
+	const out = msg => api.sendMessage(msg, threadID, messageID);
+	var { participantIDs, approvalMode, adminIDs } = await api.getThreadInfo(threadID);
+	participantIDs = participantIDs.map(e => parseInt(e));
+	if (!args[0]) return out("⛔| 𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗔𝗰𝘁𝗶𝗼𝗻\n━━━━━━━━━━━━\n\n𝖯𝗅𝖾𝖺𝗌𝖾 𝖾𝗇𝗍𝖾𝗋 𝖺𝗇 𝖨𝖽/𝖫𝗂𝗇𝗄 𝗉𝗋𝗈𝖿𝗂𝗅𝖾 𝗎𝗌𝖾𝗋 𝗍𝗈 𝖺𝖽𝖽.");
+	if (!isNaN(args[0])) return adduser(args[0], undefined);
+	else {
+		try {
+			var [id, name, fail] = await getUID(args[0], api);
+			if (fail === true && id !== null) return out(id);
+			else if (fail === true && id === null) return out("User ID not found.");
+			else {
+				await adduser(id, name || "Facebook users");
+			}
+		} catch (e) {
+			return out(`${e.name}: ${e.message}.`);
+		}
+	}
 
-  async function adduser(id, name, link) {
-    id = parseInt(id);
-    if (participantIDs.includes(id)) return out(`${name ? name : "Member"} is already in the group.`);
-    else {
-      var admins = adminIDs.map(e => parseInt(e.id));
-      try {
-        await api.addUserToGroup(id, threadID);
-      }
-      catch {
-        return out(`Can't add ${name ? name : "user"} in group.`);
-      }
-      if (approvalMode === true && !admins.includes(botID)) return out(`Added ${name ? name : "member"} to the approved list !`);
-      else return out(`Added ${name ? name : "member"} to the group !`)
-    }
-  }
-}
-
-async function getUID(input, api, link) { 
-  try {
-    const id = await findUid(input, link);
-    const name = await getUserNames(api, id);
-    return [id, name];
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function getUserNames(api, uid) {
-    try {
-        const userInfo = await api.getUserInfo([uid]);
-        return Object.values(userInfo).map(user => user.name || `https://www.facebook.com/${uid}`);
-    } catch (error) {
-        console.error('Error getting user names:', error);
-        return [];
-    }
-}
-
-async function findUid(link) {
-  try {
-    const response = await axios.post(
-      'https://seomagnifier.com/fbid',
-      new URLSearchParams({
-        'facebook': '1',
-        'sitelink': link
-      }),
-      {
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          'Cookie': 'PHPSESSID=01420e06c5c3ecec07d950ed09a341b0'
-        }
-      }
-    );
-    const id = response.data;
-    if (isNaN(id)) {
-      const html = await axios.get(link);
-      const $ = cheerio.load(html.data);
-      const el = $('meta[property="al:android:url"]').attr('content');
-      if (!el) {
-        throw new Error('UID not found');
-      }
-      const number = el.split('/').pop();
-      return number;
-    }
-    return id;
-  } catch (error) {
-    throw new Error('An unexpected error occurred. Please try again.');
-  }
+	async function adduser(id, name) {
+		id = parseInt(id);
+		if (participantIDs.includes(id)) return out(`✅| 𝗔𝗹𝗿𝗲𝗮𝗱𝘆 𝗘𝘅𝗶𝘀𝘁𝘀\n━━━━━━━━━━━━\n\n${name ? name : "Member"} 𝗂𝗌 𝖺𝗅𝗋𝖾𝖺𝖽𝗒 𝗂𝗇 𝗍𝗁𝗂𝗌 𝗀𝗋𝗈𝗎𝗉.`);
+		else {
+			var admins = adminIDs.map(e => parseInt(e));
+			try {
+				await api.addUserToGroup(id, threadID);
+			}
+			catch {
+				return out(`⛔| 𝗙𝗮𝗶𝗹𝗲𝗱\n━━━━━━━━━━━━\n\n𝖢𝖺𝗇'𝗍 𝖺𝖽𝖽 ${name ? name : "user"} 𝗂𝗇 𝗍𝗁𝖾 𝗀𝗋𝗈𝗎𝗉.`);
+			}
+			if (approvalMode === true && !admins.includes(botID)) return out(`Added ${name ? name : "member"} to the approved list !`);
+			else return out(`✅ | 𝗔𝗱𝗱𝗲𝗱 𝗨𝘀𝗲𝗿\n━━━━━━━━━━━━\n\n𝖠𝖽𝖽𝖾𝖽 ${name ? name : "member"} 𝗌𝗎𝖼𝖼𝖾𝗌𝗌𝖿𝗎𝗅𝗅𝗒 𝗍𝗈 𝗍𝗁𝖾 𝗀𝗋𝗈𝗎𝗉!`);
+		}
+	}
 }
