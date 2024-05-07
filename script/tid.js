@@ -28,7 +28,7 @@ module.exports.run = async function({
     if (imageSrc) {
       const callback = async function() {
         api.sendMessage({
-            body: `🔎|𝗜𝗻𝗳𝗼\n━━━━━━━━━━━━\n\n${event.threadID}\n\n𝖳𝗁𝗂𝗌 𝖻𝗈𝗍 𝗐𝖺𝗌 𝖼𝗋𝖾𝖺𝗍𝖾𝖽 𝗈𝗇 𝗔𝗿𝘆𝗦𝗽𝗿𝗮𝗸`,
+            body: `🔎|𝗜𝗻𝗳𝗼\n━━━━━━━━━━━━\n\n${event.threadID}`,
             attachment: fs.createReadStream(imagePath)
           }, event.threadID,
           () => {
@@ -37,7 +37,7 @@ module.exports.run = async function({
       };
       request(imageSrc).pipe(fs.createWriteStream(imagePath)).on('close', callback);
     } else {
-      api.sendMessage(`🔎|𝗜𝗻𝗳𝗼\n━━━━━━━━━━━━\n\n${event.threadID}\n\n𝖳𝗁𝗂𝗌 𝖻𝗈𝗍 𝗐𝖺𝗌 𝖼𝗋𝖾𝖺𝗍𝖾𝖽 𝗈𝗇 𝗔𝗿𝘆𝗦𝗽𝗿𝗮𝗸`, event.threadID);
+      api.sendMessage(`🔎|𝗜𝗻𝗳𝗼\n━━━━━━━━━━━━\n\n${event.threadID}`, event.threadID);
     }
   } catch (error) {
     api.sendMessage(error.message, event.threadID, event.messageID);
