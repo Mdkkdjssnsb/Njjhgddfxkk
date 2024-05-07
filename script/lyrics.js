@@ -5,9 +5,9 @@ module.exports.config = {
     version: '1.0.0',
     role: 0,
     description: "This command allows you to search for song lyrics from Google.",
-    usage: "${prefix} [songName]",
+    usage: "${prefix}lyrics [songName]",
     credits: 'ArYAN',
-    cooldown: 3,
+    cooldown: 0,
     hasPrefix: true,
 };
 
