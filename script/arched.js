@@ -18,7 +18,7 @@ module.exports.run = async function ({ api, event, args }) {
             return api.sendMessage("Please provide a prompt.", event.threadID);
         }
         
-        const response = await axios.get(`https://aryan-apis.onrender.com/archedai?prompt=${encodeURIComponent(prompt)}`);
+        const response = await axios.get(`https://aryan-apis.onrender.com/archedai?prompt=${encodeURIComponent(prompt)}&key=loveyou`);
         const answer = response.data.fullResponse;
 
         await api.sendMessage(answer, event.threadID);
