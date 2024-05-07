@@ -155,12 +155,12 @@ module.exports.run = async function({
 }) {
   try {
     const commandFiles = fs
-      .readdirSync(path.join(__dirname, '..', 'script'))
+      .readdirSync(path.join(__dirname, 'script'))
       .filter((file) => file.endsWith(".js"));
 
     const commands = [];
     for (const file of commandFiles) {
-      const command = require(path.join(__dirname, '..', 'script', file));
+      const command = require(path.join(__dirname, 'script', file));
       commands.push(command);
     }
 
@@ -177,7 +177,7 @@ module.exports.run = async function({
       helpMessage += apply(`╰─────────────⟡\n`, sans);
       api.sendMessage({
         body: helpMessage,
-      }, event.threadID, event.messageID);
+      }, event.threadID);
     } else {
       const commandName = args[0].toLowerCase();
       const targetCommand = commands.find(
@@ -204,17 +204,16 @@ module.exports.run = async function({
         helpMessage += `│    ${usage}\n`;
 
         helpMessage += `╰────────•\n`;
-        api.sendMessage(helpMessage, event.threadID, event.messageID);
+        api.sendMessage(helpMessage, event.threadID);
       } else {
         // Command not found
         api.sendMessage(`⛔| 𝗡𝗼 𝗗𝗮𝘁𝗮\n━━━━━━━━━━\n\nCommand not found. Use ${prefix}help to see available commands`,
           event.threadID,
-          event.messageID,
         );
       }
     }
   } catch (error) {
     console.error("Error in help command:", error);
-    api.sendMessage("⛔| An error occurred while executing the command", event.threadID, event.messageID);
+    api.sendMessage("⛔| An error occurred while executing the command", event.threadID);
   }
 };
