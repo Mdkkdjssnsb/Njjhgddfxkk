@@ -4,7 +4,7 @@ module.exports.config = {
     name: "prefix",
     version: "1.0.1",
     role: 0,
-    credits: "cliff",
+    credits: "ArYAN",
     description: "Display the prefix of your bot",
     hasPrefix: false,
     usages: "prefix",
@@ -26,7 +26,7 @@ module.exports.run = function ({ api, event, prefix, admin }) {
 
     api.sendMessage(
         {
-            body: `Yo, my prefix is [ 𓆩 ${prefix} 𓆪 ]\n\n𝗦𝗢𝗠𝗘 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗦 𝗧𝗛𝗔𝗧 𝗠𝗔𝗬 𝗛𝗘𝗟𝗣 𝗬𝗢𝗨:\n➥ ${prefix}help [number of page] -> see commands\n➥ ${prefix}sim [message] -> talk to bot\n➥ ${prefix}callad [message] -> report any problem encountered\n➥ ${prefix}help [command] -> information and usage of command\n\nHave fun using it, enjoy! ❤️\nBot Developer: https://www.facebook.com/${admin}`,
+            body: `👑|𝗔𝗨𝗧𝗢𝗕𝗢𝗧\n━━━━━━━━━━━\n\n𝗛𝗲𝗹𝗹𝗼! 𝗠𝘆 𝗽𝗿𝗲𝗳𝗶𝘅 𝗶𝘀 [ %2 ]\n\n𝖮𝗋𝗈𝖼𝗁𝗂 𝖡𝗈𝗍 𝖱𝖾𝗏𝗈𝗅𝗎𝗍𝗂𝗈𝗇𝗂S𝖾𝖽 𝗆𝖾𝗌𝗌𝖺𝗀𝖾 𝗌𝗒𝗌𝗍𝖾𝗆, 𝖺𝗅𝗅𝗈𝗐𝗂𝗇𝗀 𝖾𝖺𝗌y-𝗍𝗈-𝗎𝗌𝖾 𝖺𝗇𝖽 𝖾𝖺𝗌y-to-𝗋𝖾𝗎𝗌𝖾 𝗌𝗍𝗒l𝖾𝗌𝗁𝖾𝖾𝗍𝗌 𝗍𝗁𝖺𝗍 𝖺𝖽𝖽𝗌 𝗎𝗇𝗂𝖼𝗈𝖽𝖾 𝗌𝗍𝗒𝖾𝗅𝖾 𝗍𝗈 𝗒𝗈𝗎𝗋 𝖻𝗈𝗍 𝗆𝖾𝗌𝗌𝖺𝗀𝖾 𝗐𝗂𝗍𝗁 𝖾𝖺𝗌𝖾, 𝗐𝗂𝗍𝗁 𝖺 𝖻𝖾𝗍𝗍𝖾𝗋 𝗁𝖺𝗇𝖽𝗅𝗂𝗇𝗀 𝗌𝗒𝗌𝗍𝖾𝗆, 𝖺𝗏𝗈𝗂𝖽𝗂𝗇𝗀 𝗍𝗁𝖾 𝗋𝗂𝗌𝗄 𝗈𝖿 𝖺𝖼𝖼𝗈𝗎𝗇𝗍 𝗌𝗎𝗌𝗉𝖾𝗇𝗌𝗂𝗈𝗇!\n👑|𝗗𝗲𝘃: https://www.facebook.com/${admin}`,
             attachment: fs.createReadStream(__dirname + "/../cache/prefix.jpeg")
         },
         threadID,
@@ -43,7 +43,7 @@ module.exports.run = function ({ api, event, prefix, admin }) {
                 threadID,
                 () => {}
             );
-            api.setMessageReaction("🚀", messageInfo.messageID, (err) => {}, true);
+            api.setMessageReaction("✅", messageInfo.messageID, (err) => {}, true);
         }
     );
 };
