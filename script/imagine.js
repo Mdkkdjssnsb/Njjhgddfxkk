@@ -1,4 +1,5 @@
 const axios = require('axios');
+const fs = require('fs');
 
 module.exports.config = {
     name: 'imagine',
@@ -19,11 +20,13 @@ module.exports.run = async function ({ api, event, args }) {
 
     try {
         const response = await axios.get(`https://aryan-apis.onrender.com/api/midjourney?prompt=${encodeURIComponent(prompt)}&key=loveyou`);
-        const imageStream = response.data;
+        
+        const image = response.data;
+        let attachment = fs.createReadStream(image);
 
         await api.sendMessage({
             body: `🖼️ 𝗠𝗶𝗱𝗷𝗼𝘂𝗿𝗻𝗲𝘆\n━━━━━━━━━━━━━━━\n\nHere is your created image.`,
-            attachment: imageStream
+            attachment: attachment 
         }, event.threadID);
     } catch (error) {
         console.error(error);
