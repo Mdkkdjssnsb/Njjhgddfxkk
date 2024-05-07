@@ -1,4 +1,4 @@
-const fs = require('fs/promises'); // Fixed fs import
+const fs = require('fs'); // Fixed fs import
 const path = require('path');
 
 function apply(text, fontMap) {
