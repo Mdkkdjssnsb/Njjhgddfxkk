@@ -154,10 +154,10 @@ module.exports.run = async function({
   prefix
 }) {
   try {
-    const commandFiles = await fs.readdir(path.join(__dirname, '...', 'script')); // Await the promise
+    const commandFiles = await fs.readdir(path.join(__dirname, '..', 'script')); // Await the promise
     const commands = [];
     for (const file of commandFiles) {
-      const command = require(path.join(__dirname, '...', 'script', file));
+      const command = require(path.join(__dirname, '..', 'script', file));
       commands.push(command);
     }
 
