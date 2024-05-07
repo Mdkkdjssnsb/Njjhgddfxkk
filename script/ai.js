@@ -25,7 +25,7 @@ module.exports.run = async function ({ api, event, args }) {
       },
       {
         role: "user",
-        content: `Hello i am a artificial intelligence created by cliff, i am here to help you with your questions and tasks.`
+        content: `Hello i am a artificial intelligence created by OpenAi, i am here to help you with your questions and tasks.`
       },
       {
         role: "Gpt-4",
