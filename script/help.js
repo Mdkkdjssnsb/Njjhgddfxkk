@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs/promises'); // Fixed fs import
 const path = require('path');
 
 function apply(text, fontMap) {
@@ -154,10 +154,7 @@ module.exports.run = async function({
   prefix
 }) {
   try {
-    const commandFiles = fs
-      .readdirSync(path.join(__dirname, 'script'))
-      .filter((file) => file.endsWith(".js"));
-
+    const commandFiles = await fs.readdir(path.join(__dirname, 'script')); // Await the promise
     const commands = [];
     for (const file of commandFiles) {
       const command = require(path.join(__dirname, 'script', file));
