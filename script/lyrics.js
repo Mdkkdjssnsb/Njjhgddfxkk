@@ -1,4 +1,5 @@
 const axios = require("axios");
+const fs = require("fs");
 
 module.exports.config = {
     name: 'lyrics',
@@ -29,7 +30,7 @@ module.exports.run = async function ({ api, event, args }) {
         }
 
         let message = `🎶 𝗟𝗬𝗥𝗜𝗖𝗦\n\nℹ️ 𝗧𝗶𝘁𝗹𝗲\n➪ ${title}\n👑 𝗔𝗿𝘁𝗶𝘀𝘁\n➪ ${artist}\n🔎 𝗟𝘆𝗿𝗶𝗰𝘀\n━━━━━━━━━━━━━━━\n${lyrics}`;
-        let attachment = await global.utils.getStreamFromURL(image);
+        let attachment = fs.createReadStream(image);
         api.sendMessage({ body: message, attachment }, event.threadID);
     } catch (error) {
         console.error(error);
