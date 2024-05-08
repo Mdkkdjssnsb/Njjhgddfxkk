@@ -149,12 +149,12 @@ module.exports.config = {
   module.exports.run = async function ({ api, event, args, fonts, prefix }) {
     try {
       const commandFiles = fs
-        .readdirSync(path.join(__dirname, '..', 'cmds'))
+        .readdirSync(path.join(__dirname, 'script', 'cmds'))
         .filter((file) => file.endsWith(".js"));
 
       const commands = [];
       for (const file of commandFiles) {
-        const command = require(path.join(__dirname, '..', 'cmds', file));
+        const command = require(path.join(__dirname, 'script', 'cmds', file));
         commands.push(command);
       }
 
