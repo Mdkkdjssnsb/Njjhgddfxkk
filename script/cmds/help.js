@@ -4,6 +4,7 @@ const path = require('path');
 function apply(text, fontMap) {
   return text.replace(/[a-zA-Z0-9]/g, (char) => fontMap[char] || char);
 }
+
 const sans = {
   a: "𝖺",
   b: "𝖻",
@@ -145,7 +146,7 @@ module.exports.config = {
   credits: 'ArYAN',
 };
 
-module.exports.run = async function ({ api, event, args, fonts, prefix }) {
+  module.exports.run = async function ({ api, event, args, fonts, prefix }) {
     try {
       const commandFiles = fs
         .readdirSync(path.join(__dirname, '..', 'cmds'))
@@ -162,12 +163,12 @@ module.exports.run = async function ({ api, event, args, fonts, prefix }) {
         for (const command of commands) {
           const { name, role, longDescription } = command.config;
           helpMessage += apply(`├─${role === 2 ? "👑 | " : "🆓 | "}${name}\n`, bold);
-        helpMessage += apply(`│    ${longDescription && longDescription.en ? longDescription.en : "No description available"}\n`, sans);
-        helpMessage += apply(`├─────────────⟡\n`, sans);
-      }
-      helpMessage += apply(`\n`, sans);
-      helpMessage += apply(`│ ✅ 𝖬𝖺𝖽𝖾 𝗐𝗂𝗍𝗁 𝗔𝗿𝘆𝖲𝗉𝗋𝖺𝗄\n`, sans);
-      helpMessage += apply(`╰──────────────⟡\n`, sans);
+          helpMessage += apply(`│    ${longDescription ? longDescription : "No description available"}\n`, sans);
+          helpMessage += apply(`├─────────────⟡\n`, sans);
+        }
+        helpMessage += apply(`\n`, sans);
+        helpMessage += apply(`│ ✅ 𝖬𝖺𝖽𝖾 𝗐𝗂𝗍𝗁 𝗔𝗿𝘆𝖲𝗉𝗋𝖺𝗄\n`, sans);
+        helpMessage += apply(`╰──────────────⟡\n`, sans);
         api.sendMessage({
           body: helpMessage,
         }, event.threadID, event.messageID);
@@ -181,20 +182,20 @@ module.exports.run = async function ({ api, event, args, fonts, prefix }) {
         );
 
         if (targetCommand) {
-          const { name, aliases, version, author, role, countDown, longDescription, guide } =
+          const { name, aliases, credits, role, description, usage } =
             targetCommand.config;
-        let helpMessage = apply(`╭•[ ${role === 2 ? "👑 | " : "🆓 | "} ${name} ]\n`, bold);
-        if (aliases) {
+          let helpMessage = apply(`╭•[ ${role === 2 ? "👑 | " : "🆓 | "} ${name} ]\n`, bold);
+          if (aliases) {
             helpMessage += apply(`│ ✧ ALIASES\n`, bold);
             helpMessage += `│    ${aliases.join(", ")}\n`;
           }
           helpMessage += apply(`│ ✧ AUTHOR\n`, bold);
-          helpMessage += `│    ${author}\n`;
+          helpMessage += `│    ${credits}\n`;
           helpMessage += apply(`│ ✧ DESCRIPTION\n`, bold);
-          helpMessage += `│    ${longDescription && longDescription.en ? longDescription.en : "No description available"}\n`;
+          helpMessage += `│    ${description ? description : "No description available"}\n`;
 
-          helpMessage += apply(`│ ✧ GUIDE\n`, bold);
-          helpMessage += `│    ${guide && guide.en ? guide.en : "No guide available"}\n`;
+          helpMessage += apply(`│ ✧ USAGE\n`, bold);
+          helpMessage += `│    ${usage ? usage : "No guide available"}\n`;
 
           helpMessage += `╰────────•\n`;
           api.sendMessage(helpMessage, event.threadID, event.messageID);
@@ -210,5 +211,5 @@ module.exports.run = async function ({ api, event, args, fonts, prefix }) {
       console.error("Error in help command:", error);
       api.sendMessage("An error occurred while executing the command.", event.threadID, event.messageID);
     }
-  },
+  }
 };
